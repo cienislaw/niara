@@ -1,15 +1,20 @@
-var gulp = require('gulp');
-var del = require('del');
-var mkdirp = require('mkdirp');
-var glob = require('glob-all');
-var fs = require('fs');
-var eslint = require('gulp-eslint');
-var sass = require('gulp-sass');
-var autoprefixer = require('gulp-autoprefixer');
-var sourcemaps = require('gulp-sourcemaps');
-var notify = require('gulp-notify');
-var gulpif = require('gulp-if');
-var options = require('./package.json').options;
+import gulp from 'gulp';
+import {deleteAsync} from 'del';
+import { mkdirp } from 'mkdirp';
+import glob from 'glob-all';
+import fs from 'fs';
+import eslint from 'gulp-eslint';
+import postcss from 'gulp-postcss';
+import colormin from 'postcss-colormin';
+import autoprefixer from 'autoprefixer';
+import sourcemaps from 'gulp-sourcemaps';
+import notify from 'gulp-notify';
+import gulpif from'gulp-if';
+import gulpeol from 'gulp-eol';
+import options from './package.json' with { type: 'json' };
+import * as dartSass from 'sass';
+import gulpSass from 'gulp-sass';
+const sass = gulpSass(dartSass);
 
 var createFolders = [
 	'./cache/',
@@ -57,12 +62,22 @@ gulp.task('compile-css', function() {
 	return gulp.src('./sass/**/*.scss')
 		.pipe(gulpif(options.sourcemaps, sourcemaps.init()))
 		.pipe(
-			sass({
-				outputStyle: 'expanded',
-				precision: 8
+			sass.sync({
+				style: 'expanded',
+				quietDeps: true,
+//				futureDeprecations: true,
+				silenceDeprecations: ['import'],
 			}).on('error', sass.logError)
 		)
-		.pipe(autoprefixer())
+		.pipe(
+			postcss(
+				[
+					autoprefixer(),
+					// prettify(),
+					colormin()]
+			)
+		)
+		.pipe(gulpeol())
 		.pipe(gulpif(options.sourcemaps, sourcemaps.write('./')))
 		.pipe(gulp.dest('./css/'))
 		.pipe(displayNotification({
@@ -77,7 +92,7 @@ gulp.task('watch-sass', function() {
 });
 
 gulp.task('clean-up', function() {
-	return del(cleanUp).then(function() {
+	return deleteAsync(cleanUp).then(function() {
 		console.log('Deleted files and folders:\n', cleanUp.join('\n'));
 	});
 });
