@@ -11,6 +11,7 @@ var notify = require('gulp-notify');
 var gulpif = require('gulp-if');
 var options = require('./package.json').options;
 var eol = require('gulp-eol');
+var filter = require('gulp-filter');
 
 var createFolders = [
 	'./cache/',
@@ -24,6 +25,11 @@ var cleanUp = [
 	'..sass-cache/',
 	'.cache/*',
 	'.css/**/*.css.map'
+];
+
+var compileSass = [
+	'./sass/**/*.scss',
+	'!./sass/vendor/*/*.scss'
 ];
 
 gulp.task('create-folders', function(callback) {
@@ -55,7 +61,9 @@ function displayNotification(msg) {
 }
 
 gulp.task('compile-css', function() {
-	return gulp.src('./sass/**/*.scss')
+	return gulp.src(compileSass)
+		// ignore empty files
+		.pipe(filter(function(a){ return a.stat && a.stat.size }))
 		.pipe(gulpif(options.sourcemaps, sourcemaps.init()))
 		.pipe(
 			sass({
@@ -75,7 +83,7 @@ gulp.task('compile-css', function() {
 
 
 gulp.task('watch-sass', function() {
-	gulp.watch('./sass/**/*.scss', gulp.series('compile-css'));
+	gulp.watch(compileSass, gulp.series('compile-css'));
 });
 
 gulp.task('clean-up', function() {
