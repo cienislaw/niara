@@ -237,6 +237,7 @@ function updateCarrierList(json) {
 function updatePaymentMethods(json) {
   $('#HOOK_TOP_PAYMENT').html(json.HOOK_TOP_PAYMENT);
   $('#opc_payment_methods-content #HOOK_PAYMENT').html(json.HOOK_PAYMENT);
+  $('#opc_payment_methods-content #HOOK_ADVANCED_PAYMENT').html(json.HOOK_ADVANCED_PAYMENT);
 }
 
 function updatePaymentMethodsDisplay() {
