@@ -18,16 +18,24 @@ $(document).ready(function() {
     event.preventDefault();
     event.stopPropagation();
 
+    if (handler.selected_option === null) {
+      PrestaShop.showError(aeuc_no_pay_err_str);
+      return;
+    }
+	if ((typeof isGuest === 'undefined') || (isGuest === 0) || (typeof isLogged === 'undefined') || (isLogged === 0)) {
+		PrestaShop.showError("Aby kontynuować wprowadź i zapisz dane do wysyłki lub zaloguj się.");
+		return;
+	}
+	if ((typeof deliveryAddress === 'undefined') || (deliveryAddress === 0)) {
+		PrestaShop.showError("Aby kontynuować wprowadź i zapisz dane do wysyłki");
+		return;
+	}
     if (handler.checkTOS() === false) {
       PrestaShop.showError(aeuc_tos_err_str);
       return;
     }
     if (aeuc_has_virtual_products === true && handler.checkVirtualProductRevocation() === false) {
       PrestaShop.showError(aeuc_virt_prod_err_str);
-      return;
-    }
-    if (handler.selected_option === null) {
-      PrestaShop.showError(aeuc_no_pay_err_str);
       return;
     }
     if (handler.submitForm() === false) {
