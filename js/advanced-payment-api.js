@@ -22,12 +22,12 @@ $(document).ready(function() {
       PrestaShop.showError(aeuc_no_pay_err_str);
       return;
     }
-	if ((typeof isGuest === 'undefined') || (isGuest === 0) || (typeof isLogged === 'undefined') || (isLogged === 0)) {
+	if ((typeof isGuest !== 'undefined' && isGuest === 0) && (typeof isLogged !== 'undefined' && isLogged === 0)) {
 		PrestaShop.showError("Aby kontynuować wprowadź i zapisz dane do wysyłki lub zaloguj się.");
 		return;
 	}
-	if ((typeof deliveryAddress === 'undefined') || (deliveryAddress === 0)) {
-		PrestaShop.showError("Aby kontynuować wprowadź i zapisz dane do wysyłki");
+	if (typeof deliveryAddress !== 'undefined' && deliveryAddress === 0) {
+		PrestaShop.showError("Aby kontynuować wprowadź i zapisz dane do wysyłki.");
 		return;
 	}
     if (handler.checkTOS() === false) {
