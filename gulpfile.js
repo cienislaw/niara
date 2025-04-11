@@ -10,7 +10,6 @@ var sourcemaps = require('gulp-sourcemaps');
 var notify = require('gulp-notify');
 var gulpif = require('gulp-if');
 var options = require('./package.json').options;
-var eol = require('gulp-eol');
 
 var createFolders = [
 	'./cache/',
@@ -64,7 +63,6 @@ gulp.task('compile-css', function() {
 			}).on('error', sass.logError)
 		)
 		.pipe(autoprefixer())
-		.pipe(eol())
 		.pipe(gulpif(options.sourcemaps, sourcemaps.write('./')))
 		.pipe(gulp.dest('./css/'))
 		.pipe(displayNotification({
