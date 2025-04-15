@@ -1,5 +1,5 @@
 {if $opc}
-  {assign var="back_order_page" value="order-opc.php"}
+  {assign var="back_order_page" value="order-opc-advanced.php"}
 {else}
   {assign var="back_order_page" value="order.php"}
 {/if}
@@ -10,7 +10,41 @@
   <div class="alert alert-warning">{l s='Your new order was not accepted.'}</div>
 {else}
   {if $productNumber}
-    {include file="$tpl_dir./order-payment-advanced.tpl"}
+
+    {include file="$tpl_dir./order-payment-advanced-new.tpl"}
+    
+    {include file="$tpl_dir./order-carrier.tpl"}
+    {* {include file="$tpl_dir./order-carrier-advanced.tpl"} *}
+
+    {if $is_logged AND !$is_guest}
+      {include file="$tpl_dir./order-address-advanced.tpl"}
+    {else}
+      {include file="$tpl_dir./order-opc-new-account-advanced.tpl"}
+    {/if}
+
+    {if $conditions AND $cms_id}
+      {if $override_tos_display }
+        {$override_tos_display}
+      {else}
+        <div class="row">
+          <div class="col-xs-12 col-md-12">
+            <h2>{l s='Terms and Conditions'}</h2>
+            <div class="box">
+              <div class="checkbox">
+                <label for="cgv">
+                  <input type="checkbox" name="cgv" id="cgv" value="1" {if $checkedTOS}checked="checked"{/if}>
+                  <span class="label-text">{l s='I agree to the terms of service and will adhere to them unconditionally.'}</span>
+                </label>
+                <a href="{$link_conditions|escape:'html':'UTF-8'}" class="iframe" rel="nofollow">{l s='(Read the Terms of Service)'}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {/if}
+    {/if}
+  
+    {include file="$tpl_dir./shopping-cart-advanced.tpl"}
+    
   {else}
     {capture name=path}{l s='Your shopping cart'}{/capture}
     <h2 class="page-heading">{l s='Your shopping cart'}</h2>
