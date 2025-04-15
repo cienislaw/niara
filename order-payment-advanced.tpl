@@ -38,6 +38,7 @@
       {foreach from=$HOOK_ADVANCED_PAYMENT item=pay_option key=key}
         {if $pay_option}
           {assign var='adv_payment_empty' value=false}
+          {break}
         {/if}
       {/foreach}
       {if $HOOK_ADVANCED_PAYMENT && !$adv_payment_empty}
