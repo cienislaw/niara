@@ -1,10 +1,10 @@
 {if !$opc}
-{capture name=path}{l s='Shipping:'}{/capture}
-{assign var='current_step' value='shipping'}
-<div id="carrier_area">
-  <h2>{l s='Shipping:'}</h2>
-  {include file="$tpl_dir./order-steps.tpl"}
-  {include file="$tpl_dir./errors.tpl"}
+  {capture name=path}{l s='Shipping:'}{/capture}
+  {assign var='current_step' value='shipping'}
+  <div id="carrier_area">
+    <h2>{l s='Shipping:'}</h2>
+    {include file="$tpl_dir./order-steps.tpl"}
+    {include file="$tpl_dir./errors.tpl"}
   <form id="form" action="{$link->getPageLink('order', true, NULL, "{if $multi_shipping}multi-shipping={$multi_shipping}{/if}")|escape:'html':'UTF-8'}" method="post" name="carrier_area">
 {else}
   <div id="carrier_area" class="opc-main-block">
@@ -41,9 +41,12 @@
                     <table class="resume table table-bordered{if !$option.unique_carrier} hide{/if}">
                       <tr>
                         <td class="delivery_option_radio">
-                          <input id="delivery_option_{$id_address|intval}_{$option@index}" class="delivery_option_radio" type="radio" name="delivery_option[{$id_address|intval}]" data-key="{$key}" data-id_address="{$id_address|intval}" value="{$key}"{if isset($delivery_option[$id_address]) && $delivery_option[$id_address] == $key} checked="checked"{/if}><span class="label-text"></span>
+                            <label for="delivery_option_{$id_address|intval}_{$option@index}">
+                                 <input id="delivery_option_{$id_address|intval}_{$option@index}" class="delivery_option_radio" type="radio" name="delivery_option[{$id_address|intval}]" data-key="{$key}" data-id_address="{$id_address|intval}" value="{$key}"{if isset($delivery_option[$id_address]) && $delivery_option[$id_address] == $key} checked="checked"{/if}><span class="label-text"></span>
+                            </label>
                         </td>
                         <td class="delivery_option_logo">
+                          <label for="delivery_option_{$id_address|intval}_{$option@index}">
                           {foreach $option.carrier_list as $carrier}
                             {if $carrier.logo}
                               <img class="order_carrier_logo" src="{$carrier.logo|escape:'htmlall':'UTF-8'}" alt="{$carrier.instance->name|escape:'htmlall':'UTF-8'}">
@@ -52,8 +55,10 @@
                               {if !$carrier@last} - {/if}
                             {/if}
                           {/foreach}
+                            </label>
                         </td>
                         <td>
+                          <label for="delivery_option_{$id_address|intval}_{$option@index}">
                           {if $option.unique_carrier}
                             {foreach $option.carrier_list as $carrier}
                               <strong>{$carrier.instance->name|escape:'htmlall':'UTF-8'}</strong>
@@ -74,9 +79,11 @@
                               <span class="best_grade best_grade_price">{l s='The best price'}</span>
                             {/if}
                           {/if}
+                            </label>
                         </td>
                         <td class="delivery_option_price">
-                          <div class="delivery_option_price">
+                          <label for="delivery_option_{$id_address|intval}_{$option@index}">
+                            <div class="delivery_option_price">
                             {if $option.total_price_with_tax && !$option.is_free && (!isset($free_shipping) || (isset($free_shipping) && !$free_shipping))}
                               {if $use_taxes == 1}
                                 {if $priceDisplay == 1}
@@ -90,7 +97,8 @@
                             {else}
                               {l s='Free'}
                             {/if}
-                          </div>
+                            </div>
+                        </label>
                         </td>
                       </tr>
                     </table>
@@ -329,7 +337,7 @@
     {if $opc}
       <hr style="">
     {/if}
-    {if $override_tos_display }
+    {if isset($override_tos_display) && $override_tos_display}
       {$override_tos_display}
     {else}
       <div class="box">
@@ -344,6 +352,7 @@
     {/if}
   {/if}
 </div>
+{hook h='displayCarrierBelow'}
 {if !$opc}
     <p class="cart_navigation clearfix">
       <input type="hidden" name="step" value="3">
