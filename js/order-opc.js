@@ -473,33 +473,35 @@ function saveAddress(type) {
   if (type !== 'delivery' && type !== 'invoice')
     return false;
 
-  var params = 'firstname=' + encodeURIComponent($('#firstname' + (type == 'invoice' ? '_invoice' : '')).val()) + '&lastname=' + encodeURIComponent($('#lastname' + (type == 'invoice' ? '_invoice' : '')).val()) + '&';
-  if ($('#company' + (type == 'invoice' ? '_invoice' : '')).length)
-    params += 'company=' + encodeURIComponent($('#company' + (type == 'invoice' ? '_invoice' : '')).val()) + '&';
-  if ($('#vat_number' + (type == 'invoice' ? '_invoice' : '')).length)
-    params += 'vat_number=' + encodeURIComponent($('#vat_number' + (type == 'invoice' ? '_invoice' : '')).val()) + '&';
-  if ($('#dni' + (type == 'invoice' ? '_invoice' : '')).length)
-    params += 'dni=' + encodeURIComponent($('#dni' + (type == 'invoice' ? '_invoice' : '')).val()) + '&';
-  if ($('#address1' + (type == 'invoice' ? '_invoice' : '')).length)
-    params += 'address1=' + encodeURIComponent($('#address1' + (type == 'invoice' ? '_invoice' : '')).val()) + '&';
-  if ($('#address2' + (type == 'invoice' ? '_invoice' : '')).length)
-    params += 'address2=' + encodeURIComponent($('#address2' + (type == 'invoice' ? '_invoice' : '')).val()) + '&';
-  if ($('#postcode' + (type == 'invoice' ? '_invoice' : '')).length)
-    params += 'postcode=' + encodeURIComponent($('#postcode' + (type == 'invoice' ? '_invoice' : '')).val()) + '&';
-  if ($('#city' + (type == 'invoice' ? '_invoice' : '')).length)
-    params += 'city=' + encodeURIComponent($('#city' + (type == 'invoice' ? '_invoice' : '')).val()) + '&';
-  if ($('#id_country' + (type == 'invoice' ? '_invoice' : '')).length)
-    params += 'id_country=' + parseInt($('#id_country' + (type == 'invoice' ? '_invoice' : '')).val()) + '&';
-  if ($('#id_state' + (type == 'invoice' ? '_invoice' : '')).length)
-    params += 'id_state=' + encodeURIComponent($('#id_state' + (type == 'invoice' ? '_invoice' : '')).val()) + '&';
-  if ($('#other' + (type == 'invoice' ? '_invoice' : '')).length)
-    params += 'other=' + encodeURIComponent($('#other' + (type == 'invoice' ? '_invoice' : '')).val()) + '&';
-  if ($('#phone' + (type == 'invoice' ? '_invoice' : '')).length)
-    params += 'phone=' + encodeURIComponent($('#phone' + (type == 'invoice' ? '_invoice' : '')).val()) + '&';
-  if ($('#phone_mobile' + (type == 'invoice' ? '_invoice' : '')).length)
-    params += 'phone_mobile=' + encodeURIComponent($('#phone_mobile' + (type == 'invoice' ? '_invoice' : '')).val()) + '&';
-  if ($('#alias' + (type == 'invoice' ? '_invoice' : '')).length)
-    params += 'alias=' + encodeURIComponent($('#alias' + (type == 'invoice' ? '_invoice' : '')).val()) + '&';
+  var suffix = (type == 'invoice' ? '_invoice' : '');
+
+  var params = 'firstname=' + encodeURIComponent($('#firstname' + suffix).val()) + '&lastname=' + encodeURIComponent($('#lastname' + suffix).val()) + '&';
+  if ($('#company' + suffix).length)
+    params += 'company=' + encodeURIComponent($('#company' + suffix).val()) + '&';
+  if ($('#vat_number' + suffix).length)
+    params += 'vat_number=' + encodeURIComponent($('#vat_number' + suffix).val()) + '&';
+  if ($('#dni' + suffix).length)
+    params += 'dni=' + encodeURIComponent($('#dni' + suffix).val()) + '&';
+  if ($('#address1' + suffix).length)
+    params += 'address1=' + encodeURIComponent($('#address1' + suffix).val()) + '&';
+  if ($('#address2' + suffix).length)
+    params += 'address2=' + encodeURIComponent($('#address2' + suffix).val()) + '&';
+  if ($('#postcode' + suffix).length)
+    params += 'postcode=' + encodeURIComponent($('#postcode' + suffix).val()) + '&';
+  if ($('#city' + suffix).length)
+    params += 'city=' + encodeURIComponent($('#city' + suffix).val()) + '&';
+  if ($('#id_country' + suffix).length)
+    params += 'id_country=' + parseInt($('#id_country' + suffix).val()) + '&';
+  if ($('#id_state' + suffix).length)
+    params += 'id_state=' + encodeURIComponent($('#id_state' + suffix).val()) + '&';
+  if ($('#other' + suffix).length)
+    params += 'other=' + encodeURIComponent($('#other' + suffix).val()) + '&';
+  if ($('#phone' + suffix).length)
+    params += 'phone=' + encodeURIComponent($('#phone' + suffix).val()) + '&';
+  if ($('#phone_mobile' + suffix).length)
+    params += 'phone_mobile=' + encodeURIComponent($('#phone_mobile' + suffix).val()) + '&';
+  if ($('#alias' + suffix).length)
+    params += 'alias=' + encodeURIComponent($('#alias' + suffix).val()) + '&';
   if (type == 'delivery' && $('#opc_id_address_delivery').val() != undefined && parseInt($('#opc_id_address_delivery').val()) > 0)
     params += 'opc_id_address_delivery=' + parseInt($('#opc_id_address_delivery').val()) + '&';
   if (type == 'invoice' && $('#opc_id_address_invoice').val() != undefined && parseInt($('#opc_id_address_invoice').val()) > 0)
